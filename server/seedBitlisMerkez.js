@@ -51,12 +51,9 @@ async function seed() {
     await mongoose.connect(process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/nearby-cafes");
     console.log("✅ MongoDB bağlantısı başarılı.\n");
 
-    // 1. Komple temizlik
-    const del = await Place.deleteMany({});
-    console.log(`🗑️  ${del.deletedCount} eski mekan silindi.`);
-    try { await Place.collection.dropIndexes(); } catch (_) {}
-    await Place.ensureIndexes();
-    console.log("✅ İndeksler yenilendi.\n");
+    // Mevcut veriler korunur, sadece eksikler eklenir
+    const existing = await Place.countDocuments();
+    console.log(`📊 Veritabanında mevcut ${existing} mekan var. Mevcut veriler KORUNACAK.\n`);
 
     // 2. Kullanıcı bul
     let user = await User.findOne({ email: "ahmet@test.com" });
