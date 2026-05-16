@@ -4,14 +4,14 @@ import User from "./src/models/User.js";
 import Place from "./src/models/Place.js";
 
 // ═══════════════════════════════════════════════════════════
-// 📍 GENİŞLETİLMİŞ SEED — 3 Bölge, Her Bölgeye 30+ Mekan
+// 📍 BÖLGESEL SEED — Her bölgeye tam 20 mekan
 //    Format: coordinates = [LONGITUDE, LATITUDE]
-//    Maksimum Sapma: +-0.005 (göle düşmemesi için katı sınır)
+//    Maksimum Sapma: +-0.005 (karada tutmak için sıkı sınır)
 // ═══════════════════════════════════════════════════════════
 
 const CENTERS = {
-  RAHVA: [42.1100, 38.4060],
   TATVAN: [42.2810, 38.5015],
+  RAHVA: [42.1100, 38.4060],
   BITLIS: [42.1070, 38.3995],
 };
 
@@ -26,24 +26,22 @@ const CAFE_NAMES = [
   "Kahve Durağı", "Coffee Break", "Çay Evi", "Kitap Kafe", "Nargile Cafe", "Espresso Bar", 
   "Seyir Terrace", "Vadi Cafe", "Lounge", "Coffee House", "Çay Bahçesi", "Akademi Cafe", 
   "Meydan Cafe", "Sokak Kahvecisi", "Premium Cafe", "Teras Kafe", "Dostlar Kahvesi", 
-  "Gençlik Kafe", "Mola Cafe", "Liman Cafe", "Göl Kıyısı Coffee", "Tarihi Kahveci",
-  "Nostalji Kafe", "Kahve Bahçesi", "Sahil Cafe", "Kampüs Cafe", "Merkez Kafe", "Gökkuşağı Kafe"
+  "Gençlik Kafe", "Mola Cafe", "Liman Cafe", "Göl Kıyısı Coffee", "Tarihi Kahveci"
 ];
 
 const RESTAURANT_NAMES = [
   "Pide Salonu", "Kebap Evi", "Büryan Salonu", "Sofrası", "Balık Restaurant", "Dürüm Evi", 
   "Pizza House", "Burger", "Ev Yemekleri", "Kahvaltı Evi", "Tantuni", "Döner & Izgara", 
-  "Lezzet Durağı", "Çiğ Köfte", "Mangal Evi", "Lokantası", "Tarihi Restoran", "Gurme",
-  "Ziyafet Sofrası", "Saray Mutfağı", "Kavurma Salonu", "Usta Elleri", "Köfteci", "Tatvan Mutfağı"
+  "Lezzet Durağı", "Çiğ Köfte", "Mangal Evi", "Lokantası", "Tarihi Restoran", "Gurme"
 ];
 
 const PREFIXES = {
+  TATVAN: ["Tatvan", "Sahil", "Van Gölü", "Nemrut", "Çarşı", "Gölbaşı", "Liman"],
   RAHVA: ["Rahva", "Kampüs", "Eren", "Fakülte", "Akademi", "Üniversite", "Öğrenci"],
-  TATVAN: ["Tatvan", "Sahil", "Van Gölü", "Nemrut", "Çarşı", "Gölbaşı", "Liman", "Süphan"],
-  BITLIS: ["Bitlis", "Merkez", "Beş Minare", "Şerefiye", "Kale", "Tarihi", "Nur", "Dere"]
+  BITLIS: ["Bitlis", "Merkez", "Beş Minare", "Şerefiye", "Kale", "Tarihi", "Nur"]
 };
 
-function generatePlaces(regionName, centerCoords, count = 30) {
+function generatePlaces(regionName, centerCoords, count = 20) {
   const places = [];
   const prefixes = PREFIXES[regionName];
   
@@ -54,15 +52,14 @@ function generatePlaces(regionName, centerCoords, count = 30) {
       ? CAFE_NAMES[Math.floor(Math.random() * CAFE_NAMES.length)]
       : RESTAURANT_NAMES[Math.floor(Math.random() * RESTAURANT_NAMES.length)];
       
-    // Benzersiz isim oluşturma denemesi (basit)
-    const name = `${prefix} ${baseName} ${Math.random() > 0.7 ? (i + 1) : ""}`.trim();
+    const name = `${prefix} ${baseName} ${Math.floor(Math.random() * 100)}`.trim();
     
     places.push({
       name: name,
-      description: `${name} — ${regionName} bölgesinde popüler bir mekan.`,
+      description: `${name} — ${regionName} bölgesinde hizmet veren mekan.`,
       category: isCafe ? "kahve" : "restoran",
-      priceLevel: Math.floor(Math.random() * 3) + 1, // 1 to 3
-      averageRating: parseFloat((Math.random() * 2 + 3).toFixed(1)), // 3.0 to 5.0
+      priceLevel: Math.floor(Math.random() * 3) + 1,
+      averageRating: parseFloat((Math.random() * 2 + 3).toFixed(1)),
       totalReviews: Math.floor(Math.random() * 300) + 10,
       location: {
         type: "Point",
@@ -95,32 +92,25 @@ async function seed() {
     if (!user) user = await User.findOne();
     if (!user) { console.error("❌ Kullanıcı yok!"); process.exit(1); }
 
-    // 3. Her bölge için 35'er mekan üret (Toplam 105)
-    const rahvaPlaces = generatePlaces("RAHVA", CENTERS.RAHVA, 35).map(p => ({ ...p, createdBy: user._id }));
-    const tatvanPlaces = generatePlaces("TATVAN", CENTERS.TATVAN, 35).map(p => ({ ...p, createdBy: user._id }));
-    const bitlisPlaces = generatePlaces("BITLIS", CENTERS.BITLIS, 35).map(p => ({ ...p, createdBy: user._id }));
+    // 3. Her bölge için tam 20'şer mekan üret (Toplam 60)
+    const tatvanPlaces = generatePlaces("TATVAN", CENTERS.TATVAN, 20).map(p => ({ ...p, createdBy: user._id }));
+    const rahvaPlaces = generatePlaces("RAHVA", CENTERS.RAHVA, 20).map(p => ({ ...p, createdBy: user._id }));
+    const bitlisPlaces = generatePlaces("BITLIS", CENTERS.BITLIS, 20).map(p => ({ ...p, createdBy: user._id }));
 
-    const allPlaces = [...rahvaPlaces, ...tatvanPlaces, ...bitlisPlaces];
+    const allPlaces = [...tatvanPlaces, ...rahvaPlaces, ...bitlisPlaces];
     
     const result = await Place.insertMany(allPlaces);
     console.log(`✅ Toplam ${result.length} mekan başarıyla eklendi.\n`);
-    
-    // Rastgele 5 tanesini göster
-    console.log("📝 Eklenen mekanlardan örnekler:");
-    for(let i=0; i<5; i++) {
-        const p = result[Math.floor(Math.random() * result.length)];
-        const [lng, lat] = p.location.coordinates;
-        console.log(`  📍 "${p.name}" [${p.category}] → [${lng}, ${lat}]`);
-    }
 
-    // 4. Doğrulama
-    const r1 = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.RAHVA }, distanceField: "d", maxDistance: 5000, spherical: true } }]);
-    const r2 = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.TATVAN }, distanceField: "d", maxDistance: 5000, spherical: true } }]);
-    const r3 = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.BITLIS }, distanceField: "d", maxDistance: 5000, spherical: true } }]);
+    // 4. Doğrulama (GeoNear ile her merkezin çevresinde tam 20 mekan var mı kontrolü)
+    // Distance 2000m (2km) olarak ayarlandı ki Bitlis ve Rahva birbirine karışmasın
+    const rTatvan = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.TATVAN }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
+    const rRahva = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.RAHVA }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
+    const rBitlis = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.BITLIS }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
     
-    console.log(`\n🔍 Rahva BEÜ 5km Çevresi:     ${r1.length} mekan bulundu`);
-    console.log(`🔍 Tatvan Çarşı 5km Çevresi:  ${r2.length} mekan bulundu`);
-    console.log(`🔍 Bitlis Merkez 5km Çevresi: ${r3.length} mekan bulundu`);
+    console.log(`🔍 Tatvan Çarşı (2km Çevresi):  ${rTatvan.length} mekan eklendi`);
+    console.log(`🔍 Rahva BEÜ (2km Çevresi):     ${rRahva.length} mekan eklendi`);
+    console.log(`🔍 Bitlis Merkez (2km Çevresi): ${rBitlis.length} mekan eklendi`);
 
     await mongoose.disconnect();
     process.exit(0);
