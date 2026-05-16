@@ -15,10 +15,13 @@ import Place from "./src/models/Place.js";
 const CENTER_LAT = 38.412;
 const CENTER_LNG = 42.115;
 
-// Rastgele koordinat üretici (merkezden ±0.005 ~ 500m, ±0.015 ~ 1.5km)
-function randomCoord(baseLng, baseLat, spreadLng = 0.012, spreadLat = 0.008) {
-  const lng = baseLng + (Math.random() - 0.5) * 2 * spreadLng;
-  const lat = baseLat + (Math.random() - 0.5) * 2 * spreadLat;
+// Rastgele koordinat üretici
+// GeoJSON formatı: [Longitude, Latitude] → [Boylam, Enlem]
+// Spread: ±0.004 lng ≈ ~350m, ±0.003 lat ≈ ~330m (çok dar çember)
+function randomCoord() {
+  // KESİNLİKLE: coordinates dizisi = [BOYLAM, ENLEM] = [Lng, Lat]
+  const lng = CENTER_LNG + (Math.random() - 0.5) * 2 * 0.004;
+  const lat = CENTER_LAT + (Math.random() - 0.5) * 2 * 0.003;
   return [parseFloat(lng.toFixed(6)), parseFloat(lat.toFixed(6))];
 }
 
@@ -132,7 +135,7 @@ async function seedClean() {
       totalReviews: cafe.totalReviews,
       location: {
         type: "Point",
-        coordinates: randomCoord(CENTER_LNG, CENTER_LAT),
+        coordinates: randomCoord(),
       },
       address: { street: "", district: "Merkez", city: "Bitlis" },
       amenities: AMENITIES_POOL[Math.floor(Math.random() * AMENITIES_POOL.length)],
@@ -161,7 +164,7 @@ async function seedClean() {
       totalReviews: rest.totalReviews,
       location: {
         type: "Point",
-        coordinates: randomCoord(CENTER_LNG, CENTER_LAT),
+        coordinates: randomCoord(),
       },
       address: { street: "", district: "Merkez", city: "Bitlis" },
       amenities: AMENITIES_POOL[Math.floor(Math.random() * AMENITIES_POOL.length)],
