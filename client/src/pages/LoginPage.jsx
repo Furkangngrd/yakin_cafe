@@ -33,7 +33,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-12 relative overflow-hidden">
+    <div className="min-h-[100dvh] flex items-center justify-center px-4 py-12 relative overflow-hidden">
       {/* Background Orbs */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-32 -left-32 w-80 h-80 bg-primary-200/30 rounded-full blur-3xl" />

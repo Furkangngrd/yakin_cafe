@@ -41,7 +41,7 @@ export default function Navbar({
     <>
       {/* ════════════════ Desktop/Tablet Floating Pill Navbar ════════════════ */}
       <nav
-        className="fixed top-5 left-1/2 -translate-x-1/2 w-[92%] max-w-7xl z-50 px-4 sm:px-7 py-3 bg-white/75 backdrop-blur-2xl border border-white/50 rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.08)] flex items-center justify-between gap-4"
+        className="fixed top-3 sm:top-5 left-1/2 -translate-x-1/2 w-[96%] sm:w-[92%] max-w-7xl z-50 px-3 sm:px-7 py-2 sm:py-3 bg-white/75 backdrop-blur-2xl border border-white/50 rounded-[1.5rem] sm:rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.08)] flex items-center justify-between gap-2 sm:gap-4"
         id="main-navbar"
       >
         {/* ─── Logo ─── */}
@@ -68,12 +68,12 @@ export default function Navbar({
         </div>
 
         {/* ─── Right Actions ─── */}
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-1.5 sm:gap-2 flex-shrink-0">
           {/* Konum butonu */}
           <button
             onClick={onFindLocation}
             title="Konumumu Bul"
-            className="p-2.5 bg-gray-100/60 hover:bg-brand-50 text-gray-500 hover:text-brand-600 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
+            className="p-2 sm:p-2.5 bg-gray-100/60 hover:bg-brand-50 text-gray-500 hover:text-brand-600 rounded-xl transition-all duration-200 hover:scale-105 active:scale-95"
           >
             <MapPin className="w-[18px] h-[18px]" />
           </button>
@@ -106,7 +106,7 @@ export default function Navbar({
           ) : (
             <button
               onClick={onAuthOpen}
-              className="px-5 py-2.5 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold text-sm rounded-xl shadow-md shadow-brand-200/40 transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
+              className="px-3 py-2 sm:px-5 sm:py-2.5 bg-gradient-to-r from-brand-500 to-brand-600 hover:from-brand-600 hover:to-brand-700 text-white font-bold text-xs sm:text-sm rounded-xl shadow-md shadow-brand-200/40 transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
             >
               Giriş Yap
             </button>

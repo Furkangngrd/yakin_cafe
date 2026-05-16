@@ -280,7 +280,7 @@ export default function HomePage() {
   }, [position, fetchNearbyPlaces, selectedPlace]);
 
   return (
-    <div className="flex flex-col h-screen bg-[#f8fafc] overflow-hidden">
+    <div className="flex flex-col h-[100dvh] bg-[#f8fafc] overflow-hidden">
       {/* 🧭 Premium Floating Navbar */}
       <Navbar
         onAuthOpen={() => setIsAuthModalOpen(true)}
@@ -289,7 +289,7 @@ export default function HomePage() {
       />
 
       {/* ═══════════ Ana İçerik ═══════════ */}
-      <div className="flex-1 flex pt-[76px] px-4 sm:px-6 pb-4 sm:pb-6 gap-4 sm:gap-6 h-full overflow-hidden">
+      <div className="flex-1 flex pt-[64px] sm:pt-[76px] px-2 sm:px-6 pb-2 sm:pb-6 gap-2 sm:gap-6 h-full overflow-hidden">
         {/* ─── Sol Panel: Mekan Listesi (Sadece Giriş Yapılmışsa) ─── */}
         {isAuthenticated && (
           <div className="hidden md:flex w-[380px] lg:w-[420px] flex-col h-full gap-3 flex-shrink-0 animate-in fade-in slide-in-from-left-8 duration-700">
@@ -444,7 +444,7 @@ export default function HomePage() {
         )}
 
         {/* ─── Sağ Panel: Harita ─── */}
-        <div className="flex-1 bg-white rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100/80 relative">
+        <div className="flex-1 bg-white rounded-2xl sm:rounded-[2rem] shadow-[0_8px_40px_rgba(0,0,0,0.08)] overflow-hidden border border-gray-100/80 relative">
           <MapView
             center={isAuthenticated ? position : null}
             places={isAuthenticated ? filteredPlaces : []}
@@ -459,7 +459,7 @@ export default function HomePage() {
 
           {/* 🔘 Sağ Alt: Mekan Ekleme Toggle Butonu */}
           {isAuthenticated && (
-            <div className="absolute bottom-6 right-6 z-[1000] animate-in fade-in slide-in-from-bottom-4 duration-500">
+            <div className="absolute bottom-20 sm:bottom-6 right-4 sm:right-6 z-[1000] animate-in fade-in slide-in-from-bottom-4 duration-500">
               <button
                 onClick={() => setIsAddMode(!isAddMode)}
                 className={`flex items-center gap-2 px-5 py-3 rounded-2xl font-bold shadow-xl transition-all duration-300 hover:scale-105 active:scale-95 ${

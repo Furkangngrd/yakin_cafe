@@ -9,7 +9,7 @@ import { Toaster } from "react-hot-toast";
 
 export default function Layout() {
   return (
-    <div className="min-h-screen bg-[#f8fafc]">
+    <div className="min-h-[100dvh] bg-[#f8fafc]">
       <main>
         <Outlet />
       </main>
