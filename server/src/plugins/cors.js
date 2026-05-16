@@ -10,4 +10,9 @@ export default async function corsPlugin(fastify) {
     allowedHeaders: ["Content-Type", "Authorization"],
     credentials: true,
   });
+
+  // Tarayıcının gönderdiği ön denetim (preflight) istekleri için
+  fastify.options("*", (request, reply) => {
+    reply.send();
+  });
 }
