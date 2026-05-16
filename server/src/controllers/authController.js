@@ -31,7 +31,22 @@ const authController = {
     } catch (error) {
       console.error("Auth Detaylı Hata:", error.message);
       console.error("❌ Register hatası detayları:", error);
-      throw error;
+      
+      let statusCode = error.statusCode || 500;
+      let errorMessage = error.message || "Sunucu hatası";
+
+      // MongoDB Duplicate Key Error (e-posta kullanımda)
+      if (error.code === 11000) {
+        statusCode = 409;
+        errorMessage = "Bu e-posta zaten kayıtlı";
+      }
+
+      // Fastify'ın askıda kalmasını önlemek için doğrudan yanıt dönüyoruz
+      return reply.code(statusCode).send({
+        success: false,
+        message: errorMessage,
+        error: errorMessage
+      });
     }
   },
 
@@ -60,7 +75,16 @@ const authController = {
     } catch (error) {
       console.error("Auth Detaylı Hata:", error.message);
       console.error("❌ Login hatası detayları:", error);
-      throw error;
+      
+      let statusCode = error.statusCode || 500;
+      let errorMessage = error.message || "Sunucu hatası";
+
+      // Fastify'ın askıda kalmasını önlemek için doğrudan yanıt dönüyoruz
+      return reply.code(statusCode).send({
+        success: false,
+        message: errorMessage,
+        error: errorMessage
+      });
     }
   },
 
