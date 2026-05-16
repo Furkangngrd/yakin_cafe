@@ -97,20 +97,10 @@ async function seedClean() {
     console.log("✅ MongoDB bağlantısı başarılı.\n");
 
     // ═══════════════════════════════════
-    // 🗑️ 1. ADIM: TÜM ESKİ VERİLERİ SİL
+    // ✅ Güvenli mod: Mevcut veriler korunur, sadece eksikler eklenir
     // ═══════════════════════════════════
-    const deletedCount = await Place.deleteMany({});
-    console.log(`🗑️  ${deletedCount.deletedCount} eski mekan silindi.`);
-
-    // 2dsphere indeksini yeniden oluştur (bozuk indeks ihtimaline karşı)
-    try {
-      await Place.collection.dropIndexes();
-      console.log("🔄 Eski indeksler temizlendi.");
-    } catch (e) {
-      // İlk çalıştırmada indeks yoksa hata verebilir, sorun değil
-    }
-    await Place.ensureIndexes();
-    console.log("✅ 2dsphere indeksi yeniden oluşturuldu.\n");
+    const existingCount = await Place.countDocuments();
+    console.log(`📊 Veritabanında mevcut ${existingCount} mekan var. Mevcut veriler KORUNACAK.\n`);
 
     // ═══════════════════════════════════
     // 👤 Kullanıcı bul (createdBy için)
