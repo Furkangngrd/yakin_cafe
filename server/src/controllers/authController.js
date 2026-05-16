@@ -29,6 +29,7 @@ const authController = {
         201
       );
     } catch (error) {
+      console.error("Auth Detaylı Hata:", error.message);
       console.error("❌ Register hatası detayları:", error);
       throw error;
     }
@@ -57,6 +58,7 @@ const authController = {
       console.log("✅ Login başarılı:", user.email);
       return sendSuccess(reply, { user, token });
     } catch (error) {
+      console.error("Auth Detaylı Hata:", error.message);
       console.error("❌ Login hatası detayları:", error);
       throw error;
     }
