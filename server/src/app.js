@@ -28,17 +28,20 @@ const app = Fastify({
 });
 
 // ─── Plugin'ler ──────────────────────────────
-// ─── CORS Ayarları (En Üstte) ────────────────
+// ─── CORS Ayarları (En Üstte — Route'lardan ÖNCE) ────
 await app.register(cors, {
   origin: "https://5km-yakinkafe.vercel.app",
   credentials: true,
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
+  preflight: true,
+  strictPreflight: false,
 });
 
-// Tarayıcının gönderdiği ön denetim (preflight) istekleri için
-app.options("*", (request, reply) => {
-  reply.send();
+// Hata yanıtlarında bile CORS header'ının eklenmesini garanti et
+app.addHook("onSend", async (request, reply) => {
+  reply.header("Access-Control-Allow-Origin", "https://5km-yakinkafe.vercel.app");
+  reply.header("Access-Control-Allow-Credentials", "true");
 });
 await app.register(rateLimitPlugin);
 await app.register(fastifyJwt, {
