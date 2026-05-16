@@ -6,44 +6,60 @@ const authController = {
    * POST /api/auth/register
    */
   async register(request, reply) {
-    const { name, email, password } = request.body;
+    try {
+      const { name, email, password } = request.body;
+      console.log("📝 Register isteği alındı. Body:", { name, email });
 
-    if (!name || !email || !password) {
-      return sendError(reply, "Tüm alanlar zorunludur", 400);
+      if (!name || !email || !password) {
+        console.warn("⚠️ Register başarısız: Tüm alanlar zorunlu");
+        return sendError(reply, "Tüm alanlar zorunludur", 400);
+      }
+
+      const user = await authService.register({ name, email, password });
+      const token = request.server.jwt.sign({
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      });
+
+      console.log("✅ Register başarılı:", user.email);
+      return sendSuccess(
+        reply,
+        { user, token },
+        201
+      );
+    } catch (error) {
+      console.error("❌ Register hatası detayları:", error);
+      throw error;
     }
-
-    const user = await authService.register({ name, email, password });
-    const token = request.server.jwt.sign({
-      id: user._id,
-      email: user.email,
-      role: user.role,
-    });
-
-    return sendSuccess(
-      reply,
-      { user, token },
-      201
-    );
   },
 
   /**
    * POST /api/auth/login
    */
   async login(request, reply) {
-    const { email, password } = request.body;
+    try {
+      const { email, password } = request.body;
+      console.log("🔑 Login isteği alındı. Email:", email);
 
-    if (!email || !password) {
-      return sendError(reply, "E-posta ve şifre zorunludur", 400);
+      if (!email || !password) {
+        console.warn("⚠️ Login başarısız: E-posta ve şifre zorunlu");
+        return sendError(reply, "E-posta ve şifre zorunludur", 400);
+      }
+
+      const user = await authService.login({ email, password });
+      const token = request.server.jwt.sign({
+        id: user._id,
+        email: user.email,
+        role: user.role,
+      });
+
+      console.log("✅ Login başarılı:", user.email);
+      return sendSuccess(reply, { user, token });
+    } catch (error) {
+      console.error("❌ Login hatası detayları:", error);
+      throw error;
     }
-
-    const user = await authService.login({ email, password });
-    const token = request.server.jwt.sign({
-      id: user._id,
-      email: user.email,
-      role: user.role,
-    });
-
-    return sendSuccess(reply, { user, token });
   },
 
   /**
