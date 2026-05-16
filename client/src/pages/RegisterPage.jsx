@@ -35,7 +35,8 @@ export default function RegisterPage() {
       toast.success("Hesabınız oluşturuldu! 🎉");
       navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Kayıt başarısız");
+      console.error("Kayıt Hatası Detayı:", err);
+      toast.error(err.response?.data?.error || err.response?.data?.message || "Kayıt başarısız");
     } finally {
       setLoading(false);
     }

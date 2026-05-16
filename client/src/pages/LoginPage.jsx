@@ -25,7 +25,8 @@ export default function LoginPage() {
       toast.success("Hoş geldiniz! 👋");
       navigate("/");
     } catch (err) {
-      toast.error(err.response?.data?.error || "Giriş başarısız");
+      console.error("Giriş Hatası Detayı:", err);
+      toast.error(err.response?.data?.error || err.response?.data?.message || "Giriş başarısız");
     } finally {
       setLoading(false);
     }
