@@ -293,6 +293,8 @@ export default function HomePage() {
         onAuthOpen={() => setIsAuthModalOpen(true)}
         onFindLocation={findMyLocation}
         onSearchChange={setSearchQuery}
+        activeCategory={activeCategory}
+        onCategoryChange={setActiveCategory}
       />
 
       {/* ═══════════ Ana İçerik ═══════════ */}
