@@ -1,0 +1,29 @@
+{
+  "name": "nearby-cafes-api",
+  "version": "1.0.0",
+  "description": "5km Yakındaki Kafeler ve Mekanlar — Backend API (Fastify + MongoDB GeoSpatial)",
+  "type": "module",
+  "main": "src/app.js",
+  "scripts": {
+    "dev": "node --watch src/app.js",
+    "start": "node src/app.js",
+    "seed": "node seed.js"
+  },
+  "dependencies": {
+    "@fastify/cors": "^9.0.1",
+    "@fastify/jwt": "^8.0.1",
+    "@fastify/multipart": "^8.3.0",
+    "@fastify/rate-limit": "^9.1.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.5",
+    "fastify": "^4.28.1",
+    "mongodb-memory-server": "^11.1.0",
+    "mongoose": "^8.5.1"
+  },
+  "devDependencies": {
+    "pino-pretty": "^11.2.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}
