@@ -4,32 +4,46 @@ import User from "./src/models/User.js";
 import Place from "./src/models/Place.js";
 
 // ═══════════════════════════════════════════════════════════
-// 📍 GERÇEK TATVAN MEKANLARI
+// 📍 GERÇEK TATVAN MEKANLARI — SABİT KOORDİNATLAR
+//    Rastgele üretim YOK. Tüm koordinatlar karada.
 //    Format: coordinates = [LONGITUDE, LATITUDE]
 // ═══════════════════════════════════════════════════════════
 
 const realTatvanPlaces = [
-  // KAFELER
-  { name: "Nova Cafe & Novaland Eğlence Merkezi", type: "cafe", location: { type: "Point", coordinates: [42.2835, 38.5020] } },
-  { name: "Vonal Coffee Shop", type: "cafe", location: { type: "Point", coordinates: [42.2812, 38.5010] } },
-  { name: "Luuq Coffee Tatvan", type: "cafe", location: { type: "Point", coordinates: [42.2850, 38.5042] } },
-  { name: "Nada Coffee Co.", type: "cafe", location: { type: "Point", coordinates: [42.2795, 38.4995] } },
-  { name: "Beybun Cafe & Nargile", type: "cafe", location: { type: "Point", coordinates: [42.2820, 38.5030] } },
-  { name: "Güzelbahçe Vera Cafe Kahvaltı", type: "cafe", location: { type: "Point", coordinates: [42.2885, 38.5065] } },
-  { name: "Andalus Coffee & Roastery", type: "cafe", location: { type: "Point", coordinates: [42.2805, 38.5008] } },
-  { name: "Mejazz Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2840, 38.5025] } },
-  { name: "Bilgin Cafe Restaurant", type: "cafe", location: { type: "Point", coordinates: [42.2830, 38.5018] } },
-  { name: "Melodi Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2818, 38.5005] } },
+  // --- KAFELER ---
+  { name: "Nova Cafe & Novaland Eğlence Merkezi Tatvan", type: "cafe", location: { type: "Point", coordinates: [42.2825, 38.4940] } },
+  { name: "Vonal Coffee Shop", type: "cafe", location: { type: "Point", coordinates: [42.2790, 38.5015] } },
+  { name: "Luuq Coffee Tatvan", type: "cafe", location: { type: "Point", coordinates: [42.2795, 38.5020] } },
+  { name: "Nada Coffee Co.", type: "cafe", location: { type: "Point", coordinates: [42.2785, 38.5005] } },
+  { name: "Beybun Cafe & Nargile", type: "cafe", location: { type: "Point", coordinates: [42.2800, 38.5035] } },
+  { name: "Andalus Coffee & Roastery", type: "cafe", location: { type: "Point", coordinates: [42.2780, 38.5010] } },
+  { name: "Mejazz Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2792, 38.5025] } },
+  { name: "Cafe Keyf", type: "cafe", location: { type: "Point", coordinates: [42.2810, 38.5040] } },
+  { name: "Cafe Bi Yer Tatvan", type: "cafe", location: { type: "Point", coordinates: [42.2815, 38.5045] } },
+  { name: "Kahve Deryası", type: "cafe", location: { type: "Point", coordinates: [42.2820, 38.5050] } },
+  { name: "Dodo Sahil Cafe & Bistro", type: "cafe", location: { type: "Point", coordinates: [42.2825, 38.5055] } },
+  { name: "Cafeterya Monami", type: "cafe", location: { type: "Point", coordinates: [42.2788, 38.5008] } },
+  { name: "Tatvan İskele Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2830, 38.5070] } },
+  { name: "Tombak Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2798, 38.5012] } },
+  { name: "Sultansaray Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2805, 38.5022] } },
 
-  // RESTORANLAR
-  { name: "Mavi Beyaz Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2910, 38.5080] } },
-  { name: "Tatvan Şehri Ziyafet Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2780, 38.4980] } },
-  { name: "Tatvan Fidan Restaurant & Patisserie", type: "restaurant", location: { type: "Point", coordinates: [42.2825, 38.5022] } },
-  { name: "Anadolu Sofrası Tatvan", type: "restaurant", location: { type: "Point", coordinates: [42.2800, 38.5000] } },
-  { name: "Gökte Ada Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2950, 38.5100] } },
-  { name: "Arslanlar Pide Lahmacun Balık Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2775, 38.4975] } },
-  { name: "Sanayi Lokantası", type: "restaurant", location: { type: "Point", coordinates: [42.2690, 38.4910] } },
-  { name: "HapiFood Coffee & Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2845, 38.5035] } }
+  // --- RESTORANLAR / YEMEK MEKANLARI ---
+  { name: "Mavi Beyaz Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2815, 38.5060] } },
+  { name: "Tatvan Şehri Ziyafet Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2770, 38.4990] } },
+  { name: "Tatvan Fidan Restaurant & Patisserie", type: "restaurant", location: { type: "Point", coordinates: [42.2785, 38.5015] } },
+  { name: "Anadolu Sofrası Tatvan", type: "restaurant", location: { type: "Point", coordinates: [42.2775, 38.5000] } },
+  { name: "Gökte Ada Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2800, 38.5045] } },
+  { name: "Arslanlar Pide Lahmacun Balık Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2765, 38.4985] } },
+  { name: "Tatvan Market Kahvaltı Dünyası", type: "restaurant", location: { type: "Point", coordinates: [42.2780, 38.4995] } },
+  { name: "VanTat Kahvaltı Ve Melemen Salonu", type: "restaurant", location: { type: "Point", coordinates: [42.2790, 38.5005] } },
+  { name: "Meshur İstanbul börekçisi Van kahvaltı salonu", type: "restaurant", location: { type: "Point", coordinates: [42.2785, 38.5000] } },
+  { name: "Burger King - Tatvan Yaşam Avm", type: "restaurant", location: { type: "Point", coordinates: [42.2825, 38.4940] } },
+  { name: "Street Lab", type: "restaurant", location: { type: "Point", coordinates: [42.2800, 38.5015] } },
+  { name: "Floryaa Fast Food Cafe", type: "restaurant", location: { type: "Point", coordinates: [42.2810, 38.5030] } },
+  { name: "Meşhur Adana Tatlıcısı", type: "restaurant", location: { type: "Point", coordinates: [42.2795, 38.5020] } },
+  { name: "Sanayi Lokantası", type: "restaurant", location: { type: "Point", coordinates: [42.2680, 38.5130] } },
+  { name: "HapiFood Coffee & Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2805, 38.5025] } },
+  { name: "Bilgin Cafe Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2810, 38.5035] } },
 ];
 
 async function seed() {
@@ -49,16 +63,17 @@ async function seed() {
     if (!user) user = await User.findOne();
     if (!user) { console.error("❌ Kullanıcı yok!"); process.exit(1); }
 
+    // 3. Sabit koordinatlarla ekle — HİÇBİR KOORDİNAT DEĞİŞTİRİLMEDİ
     const docs = realTatvanPlaces.map((p) => ({
       name: p.name,
-      description: `${p.name} — Tatvan'da popüler bir mekan.`,
+      description: `${p.name} — Tatvan'da hizmet veren popüler mekan.`,
       category: p.type === "cafe" ? "kahve" : "restoran",
       priceLevel: Math.floor(Math.random() * 3) + 1,
-      averageRating: parseFloat((Math.random() * 1.5 + 3.5).toFixed(1)), // 3.5 to 5.0
+      averageRating: parseFloat((Math.random() * 1.5 + 3.5).toFixed(1)),
       totalReviews: Math.floor(Math.random() * 200) + 50,
       location: p.location,
       address: { street: "", district: "Tatvan", city: "Bitlis" },
-      amenities: ["wifi", "bahce"],
+      amenities: ["wifi"],
       images: ["https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"],
       createdBy: user._id,
       isUserAdded: false,
@@ -66,8 +81,7 @@ async function seed() {
     }));
 
     const result = await Place.insertMany(docs);
-    console.log(`✅ ${result.length} gerçek mekan başarıyla eklendi.\n`);
-
+    console.log(`✅ ${result.length} gerçek Tatvan mekanı eklendi:\n`);
     result.forEach((p) => {
       const [lng, lat] = p.location.coordinates;
       console.log(`  📍 "${p.name}" [${p.category}] → [${lng}, ${lat}]`);
