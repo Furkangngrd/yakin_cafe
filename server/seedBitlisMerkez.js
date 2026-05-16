@@ -4,76 +4,33 @@ import User from "./src/models/User.js";
 import Place from "./src/models/Place.js";
 
 // ═══════════════════════════════════════════════════════════
-// 📍 BÖLGESEL SEED — Her bölgeye tam 20 mekan
+// 📍 GERÇEK TATVAN MEKANLARI
 //    Format: coordinates = [LONGITUDE, LATITUDE]
-//    Maksimum Sapma: +-0.005 (karada tutmak için sıkı sınır)
 // ═══════════════════════════════════════════════════════════
 
-const CENTERS = {
-  TATVAN: [42.2810, 38.5015],
-  RAHVA: [42.1100, 38.4060],
-  BITLIS: [42.1070, 38.3995],
-};
+const realTatvanPlaces = [
+  // KAFELER
+  { name: "Nova Cafe & Novaland Eğlence Merkezi", type: "cafe", location: { type: "Point", coordinates: [42.2835, 38.5020] } },
+  { name: "Vonal Coffee Shop", type: "cafe", location: { type: "Point", coordinates: [42.2812, 38.5010] } },
+  { name: "Luuq Coffee Tatvan", type: "cafe", location: { type: "Point", coordinates: [42.2850, 38.5042] } },
+  { name: "Nada Coffee Co.", type: "cafe", location: { type: "Point", coordinates: [42.2795, 38.4995] } },
+  { name: "Beybun Cafe & Nargile", type: "cafe", location: { type: "Point", coordinates: [42.2820, 38.5030] } },
+  { name: "Güzelbahçe Vera Cafe Kahvaltı", type: "cafe", location: { type: "Point", coordinates: [42.2885, 38.5065] } },
+  { name: "Andalus Coffee & Roastery", type: "cafe", location: { type: "Point", coordinates: [42.2805, 38.5008] } },
+  { name: "Mejazz Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2840, 38.5025] } },
+  { name: "Bilgin Cafe Restaurant", type: "cafe", location: { type: "Point", coordinates: [42.2830, 38.5018] } },
+  { name: "Melodi Cafe", type: "cafe", location: { type: "Point", coordinates: [42.2818, 38.5005] } },
 
-function generateSafeCoord(centerLng, centerLat) {
-  // +- 0.005 sapma (yaklaşık 400-500 metre çapında bir alan)
-  const lng = centerLng + (Math.random() - 0.5) * 0.01;
-  const lat = centerLat + (Math.random() - 0.5) * 0.01;
-  return [parseFloat(lng.toFixed(6)), parseFloat(lat.toFixed(6))];
-}
-
-const CAFE_NAMES = [
-  "Kahve Durağı", "Coffee Break", "Çay Evi", "Kitap Kafe", "Nargile Cafe", "Espresso Bar", 
-  "Seyir Terrace", "Vadi Cafe", "Lounge", "Coffee House", "Çay Bahçesi", "Akademi Cafe", 
-  "Meydan Cafe", "Sokak Kahvecisi", "Premium Cafe", "Teras Kafe", "Dostlar Kahvesi", 
-  "Gençlik Kafe", "Mola Cafe", "Liman Cafe", "Göl Kıyısı Coffee", "Tarihi Kahveci"
+  // RESTORANLAR
+  { name: "Mavi Beyaz Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2910, 38.5080] } },
+  { name: "Tatvan Şehri Ziyafet Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2780, 38.4980] } },
+  { name: "Tatvan Fidan Restaurant & Patisserie", type: "restaurant", location: { type: "Point", coordinates: [42.2825, 38.5022] } },
+  { name: "Anadolu Sofrası Tatvan", type: "restaurant", location: { type: "Point", coordinates: [42.2800, 38.5000] } },
+  { name: "Gökte Ada Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2950, 38.5100] } },
+  { name: "Arslanlar Pide Lahmacun Balık Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2775, 38.4975] } },
+  { name: "Sanayi Lokantası", type: "restaurant", location: { type: "Point", coordinates: [42.2690, 38.4910] } },
+  { name: "HapiFood Coffee & Restaurant", type: "restaurant", location: { type: "Point", coordinates: [42.2845, 38.5035] } }
 ];
-
-const RESTAURANT_NAMES = [
-  "Pide Salonu", "Kebap Evi", "Büryan Salonu", "Sofrası", "Balık Restaurant", "Dürüm Evi", 
-  "Pizza House", "Burger", "Ev Yemekleri", "Kahvaltı Evi", "Tantuni", "Döner & Izgara", 
-  "Lezzet Durağı", "Çiğ Köfte", "Mangal Evi", "Lokantası", "Tarihi Restoran", "Gurme"
-];
-
-const PREFIXES = {
-  TATVAN: ["Tatvan", "Sahil", "Van Gölü", "Nemrut", "Çarşı", "Gölbaşı", "Liman"],
-  RAHVA: ["Rahva", "Kampüs", "Eren", "Fakülte", "Akademi", "Üniversite", "Öğrenci"],
-  BITLIS: ["Bitlis", "Merkez", "Beş Minare", "Şerefiye", "Kale", "Tarihi", "Nur"]
-};
-
-function generatePlaces(regionName, centerCoords, count = 20) {
-  const places = [];
-  const prefixes = PREFIXES[regionName];
-  
-  for (let i = 0; i < count; i++) {
-    const isCafe = Math.random() > 0.5;
-    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const baseName = isCafe 
-      ? CAFE_NAMES[Math.floor(Math.random() * CAFE_NAMES.length)]
-      : RESTAURANT_NAMES[Math.floor(Math.random() * RESTAURANT_NAMES.length)];
-      
-    const name = `${prefix} ${baseName} ${Math.floor(Math.random() * 100)}`.trim();
-    
-    places.push({
-      name: name,
-      description: `${name} — ${regionName} bölgesinde hizmet veren mekan.`,
-      category: isCafe ? "kahve" : "restoran",
-      priceLevel: Math.floor(Math.random() * 3) + 1,
-      averageRating: parseFloat((Math.random() * 2 + 3).toFixed(1)),
-      totalReviews: Math.floor(Math.random() * 300) + 10,
-      location: {
-        type: "Point",
-        coordinates: generateSafeCoord(centerCoords[0], centerCoords[1])
-      },
-      address: { street: "", district: regionName, city: "Bitlis" },
-      amenities: ["wifi", Math.random() > 0.5 ? "priz" : "bahce"].filter(Boolean),
-      images: ["https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"],
-      isUserAdded: false,
-      isActive: true,
-    });
-  }
-  return places;
-}
 
 async function seed() {
   try {
@@ -92,25 +49,29 @@ async function seed() {
     if (!user) user = await User.findOne();
     if (!user) { console.error("❌ Kullanıcı yok!"); process.exit(1); }
 
-    // 3. Her bölge için tam 20'şer mekan üret (Toplam 60)
-    const tatvanPlaces = generatePlaces("TATVAN", CENTERS.TATVAN, 20).map(p => ({ ...p, createdBy: user._id }));
-    const rahvaPlaces = generatePlaces("RAHVA", CENTERS.RAHVA, 20).map(p => ({ ...p, createdBy: user._id }));
-    const bitlisPlaces = generatePlaces("BITLIS", CENTERS.BITLIS, 20).map(p => ({ ...p, createdBy: user._id }));
+    const docs = realTatvanPlaces.map((p) => ({
+      name: p.name,
+      description: `${p.name} — Tatvan'da popüler bir mekan.`,
+      category: p.type === "cafe" ? "kahve" : "restoran",
+      priceLevel: Math.floor(Math.random() * 3) + 1,
+      averageRating: parseFloat((Math.random() * 1.5 + 3.5).toFixed(1)), // 3.5 to 5.0
+      totalReviews: Math.floor(Math.random() * 200) + 50,
+      location: p.location,
+      address: { street: "", district: "Tatvan", city: "Bitlis" },
+      amenities: ["wifi", "bahce"],
+      images: ["https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=800&q=80"],
+      createdBy: user._id,
+      isUserAdded: false,
+      isActive: true,
+    }));
 
-    const allPlaces = [...tatvanPlaces, ...rahvaPlaces, ...bitlisPlaces];
-    
-    const result = await Place.insertMany(allPlaces);
-    console.log(`✅ Toplam ${result.length} mekan başarıyla eklendi.\n`);
+    const result = await Place.insertMany(docs);
+    console.log(`✅ ${result.length} gerçek mekan başarıyla eklendi.\n`);
 
-    // 4. Doğrulama (GeoNear ile her merkezin çevresinde tam 20 mekan var mı kontrolü)
-    // Distance 2000m (2km) olarak ayarlandı ki Bitlis ve Rahva birbirine karışmasın
-    const rTatvan = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.TATVAN }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
-    const rRahva = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.RAHVA }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
-    const rBitlis = await Place.aggregate([{ $geoNear: { near: { type: "Point", coordinates: CENTERS.BITLIS }, distanceField: "d", maxDistance: 2000, spherical: true } }]);
-    
-    console.log(`🔍 Tatvan Çarşı (2km Çevresi):  ${rTatvan.length} mekan eklendi`);
-    console.log(`🔍 Rahva BEÜ (2km Çevresi):     ${rRahva.length} mekan eklendi`);
-    console.log(`🔍 Bitlis Merkez (2km Çevresi): ${rBitlis.length} mekan eklendi`);
+    result.forEach((p) => {
+      const [lng, lat] = p.location.coordinates;
+      console.log(`  📍 "${p.name}" [${p.category}] → [${lng}, ${lat}]`);
+    });
 
     await mongoose.disconnect();
     process.exit(0);

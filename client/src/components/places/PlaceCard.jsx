@@ -106,16 +106,16 @@ export default function PlaceCard({ place, index = 0, onSelect, onFavorite, isFa
 
         {/* Google Maps Yol Tarifi Butonu */}
         {place.name && (
-          <a
-            href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(place.name)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(place.name + ' Tatvan')}`, '_blank');
+            }}
             className="mt-3 w-full bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-bold py-2.5 rounded-xl flex justify-center items-center gap-1.5 transition-all shadow-sm hover:shadow-md"
           >
             <MapPin className="w-4 h-4" />
             Yol Tarifi Al
-          </a>
+          </button>
         )}
 
         {/* Aksiyon Butonları (Sadece Sahibi İçin) */}
