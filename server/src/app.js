@@ -3,7 +3,6 @@ import fastifyJwt from "@fastify/jwt";
 
 import env from "./config/env.js";
 import connectDB from "./config/db.js";
-import cors from "@fastify/cors";
 import rateLimitPlugin from "./plugins/rateLimit.js";
 import globalErrorHandler from "./middlewares/errorHandler.js";
 
@@ -11,6 +10,13 @@ import globalErrorHandler from "./middlewares/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import placeRoutes from "./routes/placeRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
+
+// İzin verilen origin'ler
+const ALLOWED_ORIGINS = [
+  "https://5km-yakinkafe.vercel.app",
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
 // ═══════════════════════════════════════════════
 // Fastify Server Başlatma
@@ -27,20 +33,35 @@ const app = Fastify({
   },
 });
 
-// ─── Plugin'ler ──────────────────────────────
-// ─── CORS Ayarları (En Üstte — Route'lardan ÖNCE) ────
-await app.register(cors, {
-  origin: "https://5km-yakinkafe.vercel.app",
-  credentials: true,
-  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-  allowedHeaders: ["Content-Type", "Authorization"],
-  preflight: true,
-  strictPreflight: false,
+// ═══════════════════════════════════════════════
+// 🔧 MANUEL CORS — Hazır kütüphane KULLANILMIYOR
+//    Her istek ve her yanıt için header'ları BİZZAT ekliyoruz.
+// ═══════════════════════════════════════════════
+
+// 1) onRequest: Gelen her istekte CORS header'larını damgala
+//    + OPTIONS (preflight) isteklerini anında 200 ile bitir
+app.addHook("onRequest", async (request, reply) => {
+  const origin = request.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    reply.header("Access-Control-Allow-Origin", origin);
+  }
+  reply.header("Access-Control-Allow-Credentials", "true");
+  reply.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, PATCH, OPTIONS");
+  reply.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+
+  // Preflight (OPTIONS) isteğini hemen yanıtla, route'lara düşürme
+  if (request.method === "OPTIONS") {
+    reply.code(204).send();
+    return;
+  }
 });
 
-// Hata yanıtlarında bile CORS header'ının eklenmesini garanti et
+// 2) onSend: Hata yanıtlarında bile CORS header'ının eklenmesini garanti et
 app.addHook("onSend", async (request, reply) => {
-  reply.header("Access-Control-Allow-Origin", "https://5km-yakinkafe.vercel.app");
+  const origin = request.headers.origin;
+  if (ALLOWED_ORIGINS.includes(origin)) {
+    reply.header("Access-Control-Allow-Origin", origin);
+  }
   reply.header("Access-Control-Allow-Credentials", "true");
 });
 await app.register(rateLimitPlugin);
