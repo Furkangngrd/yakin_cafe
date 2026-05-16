@@ -102,8 +102,8 @@ export default function HomePage() {
         toast.success("Konumunuz bulundu! 📍", { icon: "🧭" });
       },
       () => {
-        toast("Konum izni verilmedi, BEÜ Kampüs'ten devam ediliyor.", { icon: "🏫" });
-        const fallback = { lat: 38.4715, lng: 42.1592 };
+        toast("Konum izni verilmedi, Rahva konumundan devam ediliyor.", { icon: "🏫" });
+        const fallback = { lat: 38.412, lng: 42.115 };
         setPosition(fallback);
         fetchNearbyPlaces(fallback);
       },
@@ -124,15 +124,15 @@ export default function HomePage() {
       return;
     }
 
-    const BEU_CAMPUS = { lat: 38.4715, lng: 42.1592 };
+    const RAHVA_CAMPUS = { lat: 38.412, lng: 42.115 };
     const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
-    // 🎓 SUNUM HİLESİ: localhost'ta doğrudan BEÜ Kampüs'ten başla
+    // 🎓 SUNUM HİLESİ: localhost'ta doğrudan Rahva Yerleşkesi'nden başla
     if (isLocalhost) {
       setIsFlying(true);
-      setPosition(BEU_CAMPUS);
-      fetchNearbyPlaces(BEU_CAMPUS);
-      toast("📍 BEÜ Kampüs konumundan başlıyoruz", { icon: "🏫" });
+      setPosition(RAHVA_CAMPUS);
+      fetchNearbyPlaces(RAHVA_CAMPUS);
+      toast("📍 Rahva Yerleşkesi konumundan başlıyoruz", { icon: "🏫" });
       return;
     }
 
@@ -150,17 +150,17 @@ export default function HomePage() {
           toast.success("Gerçek konumunuz bulundu! 📍", { icon: "🧭" });
         },
         () => {
-          // Konum izni verilmedi → BEÜ Kampüs fallback
-          setPosition(BEU_CAMPUS);
-          fetchNearbyPlaces(BEU_CAMPUS);
-          toast("Konum izni verilmedi, BEÜ Kampüs'ten başlıyoruz.", { icon: "🏫" });
+          // Konum izni verilmedi → Rahva Yerleşkesi fallback
+          setPosition(RAHVA_CAMPUS);
+          fetchNearbyPlaces(RAHVA_CAMPUS);
+          toast("Konum izni verilmedi, Rahva Yerleşkesi'nden başlıyoruz.", { icon: "🏫" });
         },
         { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
       );
     } else {
-      // Tarayıcı desteklemiyor → BEÜ Kampüs fallback
-      setPosition(BEU_CAMPUS);
-      fetchNearbyPlaces(BEU_CAMPUS);
+      // Tarayıcı desteklemiyor → Rahva Yerleşkesi fallback
+      setPosition(RAHVA_CAMPUS);
+      fetchNearbyPlaces(RAHVA_CAMPUS);
     }
   }, [isAuthenticated, fetchNearbyPlaces]);
 

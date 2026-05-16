@@ -37,8 +37,8 @@ export function useGeolocation() {
         default:
           setError("Bilinmeyen bir hata oluştu");
       }
-      // Fallback: Bitlis Tatvan (Projenin ana bölgesi)
-      setPosition({ lat: 38.5052, lng: 42.2801 });
+      // Fallback: Rahva Yerleşkesi (Projenin ana bölgesi)
+      setPosition({ lat: 38.412, lng: 42.115 });
       setLoading(false);
     };
 
