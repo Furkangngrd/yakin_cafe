@@ -103,7 +103,7 @@ export default function HomePage() {
       },
       () => {
         toast("Konum izni verilmedi, Rahva konumundan devam ediliyor.", { icon: "🏫" });
-        const fallback = { lat: 38.412, lng: 42.115 };
+        const fallback = { lat: 38.4060, lng: 42.1100 };
         setPosition(fallback);
         fetchNearbyPlaces(fallback);
       },
@@ -124,7 +124,7 @@ export default function HomePage() {
       return;
     }
 
-    const RAHVA_CAMPUS = { lat: 38.412, lng: 42.115 };
+    const RAHVA_CAMPUS = { lat: 38.4060, lng: 42.1100 };
     const isLocalhost = window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1";
 
     // 🎓 SUNUM HİLESİ: localhost'ta doğrudan Rahva Yerleşkesi'nden başla

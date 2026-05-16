@@ -282,7 +282,7 @@ export default function MapView({
   tempMarker,
   isAddMode,
 }) {
-  const defaultCenter = center || { lat: 38.412, lng: 42.115 }; // Rahva Yerleşkesi
+  const defaultCenter = center || { lat: 38.4060, lng: 42.1100 }; // Rahva BEÜ Kampüs
 
   return (
     <div className="w-full h-full relative group rounded-[inherit]">

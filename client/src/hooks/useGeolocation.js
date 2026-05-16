@@ -37,8 +37,8 @@ export function useGeolocation() {
         default:
           setError("Bilinmeyen bir hata oluştu");
       }
-      // Fallback: Rahva Yerleşkesi (Projenin ana bölgesi)
-      setPosition({ lat: 38.412, lng: 42.115 });
+      // Fallback: Rahva BEÜ Kampüs
+      setPosition({ lat: 38.4060, lng: 42.1100 });
       setLoading(false);
     };
 
