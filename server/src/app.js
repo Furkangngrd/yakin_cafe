@@ -3,7 +3,7 @@ import fastifyJwt from "@fastify/jwt";
 
 import env from "./config/env.js";
 import connectDB from "./config/db.js";
-import corsPlugin from "./plugins/cors.js";
+import cors from "@fastify/cors";
 import rateLimitPlugin from "./plugins/rateLimit.js";
 import globalErrorHandler from "./middlewares/errorHandler.js";
 
@@ -28,7 +28,18 @@ const app = Fastify({
 });
 
 // ─── Plugin'ler ──────────────────────────────
-await app.register(corsPlugin);
+// ─── CORS Ayarları (En Üstte) ────────────────
+await app.register(cors, {
+  origin: "https://5km-yakinkafe.vercel.app",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+});
+
+// Tarayıcının gönderdiği ön denetim (preflight) istekleri için
+app.options("*", (request, reply) => {
+  reply.send();
+});
 await app.register(rateLimitPlugin);
 await app.register(fastifyJwt, {
   secret: env.jwtSecret,
