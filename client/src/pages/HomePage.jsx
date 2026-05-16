@@ -240,7 +240,7 @@ export default function HomePage() {
       setIsAuthModalOpen(false);
       if (success) {
         // Giriş başarılı → konum bul ve haritayı uçur
-        setTimeout(() => findMyLocation(), 600);
+        setTimeout(() => findMyLocation(), 800);
       }
     },
     [findMyLocation]
@@ -256,6 +256,13 @@ export default function HomePage() {
       setPosition({ lat: coords[1], lng: coords[0] });
       setIsFlying(true);
     }
+  }, []);
+
+  // ═══════════════════════════════════
+  // ✈️ Harita uçuşu bittiğinde isFlying'ı sıfırla
+  // ═══════════════════════════════════
+  const handleFlyEnd = useCallback(() => {
+    setIsFlying(false);
   }, []);
 
   // ═══════════════════════════════════
@@ -453,6 +460,7 @@ export default function HomePage() {
             onPlaceSelect={handlePlaceSelect}
             selectedPlace={selectedPlace}
             onMapClick={handleMapClick}
+            onFlyEnd={handleFlyEnd}
             tempMarker={tempMarker}
             isAddMode={isAddMode}
           />

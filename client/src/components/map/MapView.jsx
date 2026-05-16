@@ -231,20 +231,30 @@ function createClusterCustomIcon(cluster) {
 // ═══════════════════════════════════════════
 // 🚀 MapController — flyTo + click handler
 // ═══════════════════════════════════════════
-function MapController({ center, isFlying, onMapClick }) {
+function MapController({ center, isFlying, onMapClick, onFlyEnd }) {
   const map = useMap();
-  const hasFlewRef = useRef(false);
+  const prevCenterRef = useRef(null);
 
   useEffect(() => {
-    if (center && isFlying) {
-      // Yumuşak süzülme — 2.5 saniyelik sinematik uçuş
-      map.flyTo([center.lat, center.lng], 15, {
+    if (!center) return;
+
+    // Konum değişti mi kontrol et (aynı koordinata tekrar uçmasın)
+    const prev = prevCenterRef.current;
+    const isSameCenter = prev && prev.lat === center.lat && prev.lng === center.lng;
+
+    if (!isSameCenter || isFlying) {
+      // Zoom seviyesi 16 — yakın çevre net görünsün
+      map.flyTo([center.lat, center.lng], 16, {
         duration: 2.5,
         easeLinearity: 0.25,
       });
-      hasFlewRef.current = true;
+      prevCenterRef.current = { lat: center.lat, lng: center.lng };
+      // Uçuş bittiğinde parent'a bildir
+      if (onFlyEnd) {
+        setTimeout(() => onFlyEnd(), 2600);
+      }
     }
-  }, [center, isFlying, map]);
+  }, [center, isFlying, map, onFlyEnd]);
 
   useMapEvents({
     click: (e) => {
@@ -268,6 +278,7 @@ export default function MapView({
   selectedPlace,
   isFlying = true,
   onMapClick,
+  onFlyEnd,
   tempMarker,
   isAddMode,
 }) {
@@ -277,7 +288,7 @@ export default function MapView({
     <div className="w-full h-full relative group rounded-[inherit]">
       <MapContainer
         center={[defaultCenter.lat, defaultCenter.lng]}
-        zoom={15}
+        zoom={16}
         zoomControl={false}
         maxZoom={19}
         className={`w-full h-full ${isAddMode ? '[&_.leaflet-interactive]:!cursor-crosshair !cursor-crosshair' : ''}`}
@@ -295,6 +306,7 @@ export default function MapView({
           center={center}
           isFlying={isFlying}
           onMapClick={onMapClick}
+          onFlyEnd={onFlyEnd}
         />
 
         {/* 🟢 Arama yarıçapı çemberi */}
