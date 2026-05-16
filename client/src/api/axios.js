@@ -1,6 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
+  // Canlı (Render) API adresi
   baseURL: "https://yakinkafe-api.onrender.com/api",
   headers: {
     "Content-Type": "application/json",
