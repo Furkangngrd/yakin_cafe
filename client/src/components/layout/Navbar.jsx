@@ -217,11 +217,11 @@ export default function Navbar({
               {user?.role === "admin" && (
                 <button
                   onClick={onAdminOpen}
-                  title="Admin Paneli"
+                  title="Mekan Ekleme İstekleri"
                   className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-200/40 transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
                 >
                   <Crown className="w-3.5 h-3.5" />
-                  Admin
+                  İstekler
                 </button>
               )}
               {/* Kullanıcı bilgisi */}
@@ -385,7 +385,7 @@ export default function Navbar({
                       <ChevronRight className="w-4 h-4 text-gray-300 ml-auto" />
                     </button>
 
-                    {/* 👑 Admin Paneli — Mobil Drawer */}
+                    {/* 👑 Mekan Ekleme İstekleri — Mobil Drawer */}
                     {user?.role === "admin" && (
                       <button
                         onClick={() => {
@@ -395,7 +395,7 @@ export default function Navbar({
                         className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-amber-700 hover:bg-amber-50 transition-colors"
                       >
                         <Crown className="w-4 h-4 text-amber-500" />
-                        Admin Paneli
+                        Mekan Ekleme İstekleri
                         <ChevronRight className="w-4 h-4 text-amber-300 ml-auto" />
                       </button>
                     )}

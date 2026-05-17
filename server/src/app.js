@@ -3,6 +3,7 @@ import fastifyJwt from "@fastify/jwt";
 
 import env from "./config/env.js";
 import connectDB from "./config/db.js";
+import User from "./models/User.js";
 import rateLimitPlugin from "./plugins/rateLimit.js";
 import globalErrorHandler from "./middlewares/errorHandler.js";
 
@@ -92,6 +93,25 @@ const start = async () => {
   try {
     // MongoDB bağlantısı
     await connectDB();
+
+    // ─── 👑 Sabit Admin Hesabı Oluştur (yoksa) ──────
+    try {
+      const adminExists = await User.findOne({ email: "admin@yakinkafe.com" });
+      if (!adminExists) {
+        await User.create({
+          name: "YakınKafe Admin",
+          email: "admin@yakinkafe.com",
+          password: "admin123",
+          role: "admin",
+        });
+        console.log("👑 Admin hesabı oluşturuldu: admin@yakinkafe.com");
+      }
+    } catch (adminErr) {
+      // Duplicate key veya başka hata → sessizce geç
+      if (adminErr.code !== 11000) {
+        console.warn("⚠️ Admin hesabı kontrol hatası:", adminErr.message);
+      }
+    }
 
     // Sunucu dinlemeye başla
     await app.listen({ port: env.port, host: env.host });

@@ -22,7 +22,7 @@ import api from "../../api/axios";
 import toast from "react-hot-toast";
 
 // ═══════════════════════════════════════════════════════════
-// 👑 Admin Panel — Mekan Onay Dashboard
+// 👑 Mekan Ekleme İstekleri — Onay Dashboard
 //    • Onay bekleyen mekanları listeler
 //    • ✅ Onayla / ❌ Reddet butonları
 //    • Premium glassmorphism modal tasarım
@@ -146,10 +146,10 @@ export default function AdminPanel({ isOpen, onClose }) {
                   </div>
                   <div>
                     <h2 className="text-lg font-black tracking-tight">
-                      Admin Paneli
+                      Mekan Ekleme İstekleri
                     </h2>
                     <p className="text-amber-100 text-xs mt-0.5 font-medium">
-                      Mekan onay yönetimi
+                      Kullanıcı mekan onay yönetimi
                     </p>
                   </div>
                 </div>
