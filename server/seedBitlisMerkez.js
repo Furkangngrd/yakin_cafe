@@ -82,6 +82,7 @@ async function seed() {
       createdBy: user._id,
       isUserAdded: false,
       isActive: true,
+      status: "approved",
     }));
 
     const result = await Place.insertMany(docs);

@@ -126,6 +126,12 @@ const placeSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    // ─── Admin Onay Durumu ────────────────────
+    status: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+    },
   },
   {
     timestamps: true,
@@ -144,6 +150,7 @@ placeSchema.index({ category: 1 });
 placeSchema.index({ averageRating: -1 });
 placeSchema.index({ priceLevel: 1 });
 placeSchema.index({ createdBy: 1 });
+placeSchema.index({ status: 1 });
 placeSchema.index({ name: "text", description: "text" }); // Metin araması
 
 // ─── Virtual: Reviews ──────────────────────

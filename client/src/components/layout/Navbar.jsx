@@ -13,6 +13,7 @@ import {
   ChevronDown,
   UtensilsCrossed,
   Layers,
+  Crown,
 } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
@@ -65,6 +66,7 @@ export default function Navbar({
   onSearchChange,
   activeCategory = "all",
   onCategoryChange,
+  onAdminOpen,
 }) {
   const { user, isAuthenticated, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -211,6 +213,17 @@ export default function Navbar({
           {/* Auth durumuna göre */}
           {isAuthenticated ? (
             <div className="flex items-center gap-2 pl-2 border-l border-gray-200/60 ml-1">
+              {/* 👑 Admin Panel Butonu — Sadece admin rolüne sahip kullanıcılara gösterilir */}
+              {user?.role === "admin" && (
+                <button
+                  onClick={onAdminOpen}
+                  title="Admin Paneli"
+                  className="hidden sm:flex items-center gap-1.5 px-3 py-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-bold text-xs rounded-xl shadow-md shadow-amber-200/40 transition-all duration-200 hover:shadow-lg hover:scale-105 active:scale-95"
+                >
+                  <Crown className="w-3.5 h-3.5" />
+                  Admin
+                </button>
+              )}
               {/* Kullanıcı bilgisi */}
               <div className="text-right hidden sm:block">
                 <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider leading-none">
@@ -371,6 +384,21 @@ export default function Navbar({
                       Konumumu Bul
                       <ChevronRight className="w-4 h-4 text-gray-300 ml-auto" />
                     </button>
+
+                    {/* 👑 Admin Paneli — Mobil Drawer */}
+                    {user?.role === "admin" && (
+                      <button
+                        onClick={() => {
+                          onAdminOpen?.();
+                          setMobileOpen(false);
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-3 rounded-xl text-sm font-medium text-amber-700 hover:bg-amber-50 transition-colors"
+                      >
+                        <Crown className="w-4 h-4 text-amber-500" />
+                        Admin Paneli
+                        <ChevronRight className="w-4 h-4 text-amber-300 ml-auto" />
+                      </button>
+                    )}
 
                     <div className="border-t border-gray-100 my-2" />
 

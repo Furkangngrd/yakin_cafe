@@ -10,6 +10,7 @@ import globalErrorHandler from "./middlewares/errorHandler.js";
 import authRoutes from "./routes/authRoutes.js";
 import placeRoutes from "./routes/placeRoutes.js";
 import reviewRoutes from "./routes/reviewRoutes.js";
+import adminRoutes from "./routes/adminRoutes.js";
 
 // İzin verilen origin'ler
 const ALLOWED_ORIGINS = [
@@ -84,6 +85,7 @@ app.get("/api/health", async () => ({
 app.register(authRoutes, { prefix: "/api/auth" });
 app.register(placeRoutes, { prefix: "/api/places" });
 app.register(reviewRoutes, { prefix: "/api/reviews" });
+app.register(adminRoutes, { prefix: "/api/admin" });
 
 // ─── Sunucuyu Başlat ─────────────────────────
 const start = async () => {

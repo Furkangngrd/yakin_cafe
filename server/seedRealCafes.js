@@ -93,6 +93,7 @@ async function seed() {
       ...cafe,
       createdBy: user._id,
       isActive: true,
+      status: "approved",
     }));
 
     // Aynı isimde mekan varsa tekrar eklemeyi önle

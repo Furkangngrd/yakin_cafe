@@ -128,9 +128,9 @@ export default function AddPlaceModal({
         });
       } else {
         await api.post("/places", payload);
-        toast.success("Mekan başarıyla eklendi! 🎉", {
-          icon: "📍",
-          duration: 3000,
+        toast.success("Mekan onaya gönderildi. Admin onayladıktan sonra haritada görünecek! ⏳", {
+          icon: "📋",
+          duration: 4000,
         });
       }
 

@@ -19,6 +19,7 @@ import PlaceList from "../components/places/PlaceList";
 import AddPlaceModal from "../components/places/AddPlaceModal";
 import AuthModal from "../components/auth/AuthModal";
 import Navbar from "../components/layout/Navbar";
+import AdminPanel from "../components/admin/AdminPanel";
 import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import api from "../api/axios";
@@ -52,6 +53,9 @@ export default function HomePage() {
 
   // 🔐 Auth modal
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+
+  // 👑 Admin panel modal
+  const [isAdminPanelOpen, setIsAdminPanelOpen] = useState(false);
 
   // ═══════════════════════════════════
   // 📡 API — Yakındaki mekanları getir
@@ -295,6 +299,7 @@ export default function HomePage() {
         onSearchChange={setSearchQuery}
         activeCategory={activeCategory}
         onCategoryChange={setActiveCategory}
+        onAdminOpen={() => setIsAdminPanelOpen(true)}
       />
 
       {/* ═══════════ Ana İçerik ═══════════ */}
@@ -542,6 +547,12 @@ export default function HomePage() {
         onSuccess={() => {
           if (position) fetchNearbyPlaces(position);
         }}
+      />
+
+      {/* 👑 Admin Paneli Modal */}
+      <AdminPanel
+        isOpen={isAdminPanelOpen}
+        onClose={() => setIsAdminPanelOpen(false)}
       />
     </div>
   );

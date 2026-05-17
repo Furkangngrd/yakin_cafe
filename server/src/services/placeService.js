@@ -8,7 +8,7 @@ const placeService = {
    * Yeni mekan oluştur
    */
   async create(data, userId) {
-    const place = await Place.create({ ...data, createdBy: userId });
+    const place = await Place.create({ ...data, createdBy: userId, status: "pending" });
     return place;
   },
 
@@ -16,7 +16,7 @@ const placeService = {
    * Tüm mekanları getir (filtreli, sayfalı)
    */
   async getAll({ category, priceLevel, minRating, search, page = 1, limit = 20 }) {
-    const filter = { isActive: true };
+    const filter = { isActive: true, status: "approved" };
 
     if (category) filter.category = category;
     if (priceLevel) filter.priceLevel = parseInt(priceLevel, 10);
@@ -139,7 +139,7 @@ const placeService = {
           distanceField: "distance",
           maxDistance: distanceLimit,
           spherical: true,
-          query: { isActive: true, ...(category && { category }) },
+          query: { isActive: true, status: "approved", ...(category && { category }) },
         },
       },
       {
@@ -179,6 +179,7 @@ const placeService = {
   async findWithinPolygon(polygonCoordinates, category) {
     const filter = {
       isActive: true,
+      status: "approved",
       location: {
         $geoWithin: {
           $geometry: {
@@ -192,6 +193,49 @@ const placeService = {
     if (category) filter.category = category;
 
     return Place.find(filter).populate("createdBy", "name avatar");
+  },
+
+  // ═══════════════════════════════════════════
+  // 👑 Admin — Onay Sistemi
+  // ═══════════════════════════════════════════
+
+  /**
+   * Onay bekleyen mekanları listele
+   */
+  async getPending() {
+    return Place.find({ status: "pending" })
+      .populate("createdBy", "name email avatar")
+      .sort({ createdAt: -1 });
+  },
+
+  /**
+   * Mekanı onayla
+   */
+  async approve(id) {
+    const place = await Place.findById(id);
+    if (!place) {
+      const error = new Error("Mekan bulunamadı");
+      error.statusCode = 404;
+      throw error;
+    }
+    place.status = "approved";
+    await place.save();
+    return place;
+  },
+
+  /**
+   * Mekanı reddet
+   */
+  async reject(id) {
+    const place = await Place.findById(id);
+    if (!place) {
+      const error = new Error("Mekan bulunamadı");
+      error.statusCode = 404;
+      throw error;
+    }
+    place.status = "rejected";
+    await place.save();
+    return place;
   },
 };
 

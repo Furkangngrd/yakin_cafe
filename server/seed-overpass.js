@@ -162,7 +162,8 @@ const seedData = async () => {
           images: [randomImage],
           createdBy: ownerUser._id,
           isUserAdded: false,
-          isActive: true
+          isActive: true,
+          status: "approved"
         });
       }
 
@@ -189,7 +190,8 @@ const seedData = async () => {
           images: [KAFE_GORSELLERI[Math.floor(Math.random() * KAFE_GORSELLERI.length)]],
           createdBy: ownerUser._id,
           isUserAdded: false,
-          isActive: true
+          isActive: true,
+          status: "approved"
         });
       }
     }

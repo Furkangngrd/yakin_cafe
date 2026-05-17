@@ -44,6 +44,7 @@ const seedData = async () => {
         averageRating: 4.8,
         totalReviews: 3,
         createdBy: users[0]._id,
+        status: "approved",
       },
       {
         name: "Kronotrop Coffee",
@@ -56,6 +57,7 @@ const seedData = async () => {
         averageRating: 4.5,
         totalReviews: 2,
         createdBy: users[1]._id,
+        status: "approved",
       },
       {
         name: "Walter's Coffee Roastery",
@@ -68,6 +70,7 @@ const seedData = async () => {
         averageRating: 4.3,
         totalReviews: 1,
         createdBy: users[2]._id,
+        status: "approved",
       },
       {
         name: "Baylan Pastanesi",
@@ -80,6 +83,7 @@ const seedData = async () => {
         averageRating: 4.6,
         totalReviews: 2,
         createdBy: users[0]._id,
+        status: "approved",
       },
       {
         name: "MOC Kadıköy",
@@ -92,6 +96,7 @@ const seedData = async () => {
         averageRating: 4.4,
         totalReviews: 1,
         createdBy: users[1]._id,
+        status: "approved",
       },
       {
         name: "Çiya Sofrası",
@@ -104,6 +109,7 @@ const seedData = async () => {
         averageRating: 4.7,
         totalReviews: 3,
         createdBy: users[2]._id,
+        status: "approved",
       },
       {
         name: "House Café Ortaköy",
@@ -116,6 +122,7 @@ const seedData = async () => {
         averageRating: 4.1,
         totalReviews: 2,
         createdBy: users[0]._id,
+        status: "approved",
       },
       {
         name: "Karabatak",
@@ -128,6 +135,7 @@ const seedData = async () => {
         averageRating: 4.5,
         totalReviews: 2,
         createdBy: users[1]._id,
+        status: "approved",
       },
       {
         name: "Fazıl Bey",
@@ -140,6 +148,7 @@ const seedData = async () => {
         averageRating: 4.4,
         totalReviews: 2,
         createdBy: users[2]._id,
+        status: "approved",
       },
       {
         name: "Petra Roasting Co.",
@@ -152,6 +161,7 @@ const seedData = async () => {
         averageRating: 4.6,
         totalReviews: 1,
         createdBy: users[0]._id,
+        status: "approved",
       },
     ]);
     console.log(`📍 ${places.length} mekan oluşturuldu`);

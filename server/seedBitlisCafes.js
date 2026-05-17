@@ -228,6 +228,7 @@ async function seed() {
         images: [IMAGES[Math.floor(Math.random() * IMAGES.length)]],
         createdBy: user._id,
         isActive: true,
+        status: "approved",
       });
       console.log(`  ✅ "${cafe.name}" eklendi.`);
       added++;

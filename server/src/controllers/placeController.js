@@ -95,6 +95,34 @@ const placeController = {
     const places = await placeService.findWithinPolygon(polygon, category);
     return sendSuccess(reply, { places, count: places.length });
   },
+
+  // ═══════════════════════════════════════════
+  // 👑 Admin Endpoints
+  // ═══════════════════════════════════════════
+
+  /**
+   * GET /api/admin/cafes/pending
+   */
+  async getPending(request, reply) {
+    const places = await placeService.getPending();
+    return sendSuccess(reply, { places, count: places.length });
+  },
+
+  /**
+   * PUT /api/admin/cafes/:id/approve
+   */
+  async approve(request, reply) {
+    const place = await placeService.approve(request.params.id);
+    return sendSuccess(reply, { place, message: "Mekan onaylandı" });
+  },
+
+  /**
+   * PUT /api/admin/cafes/:id/reject
+   */
+  async reject(request, reply) {
+    const place = await placeService.reject(request.params.id);
+    return sendSuccess(reply, { place, message: "Mekan reddedildi" });
+  },
 };
 
 export default placeController;
