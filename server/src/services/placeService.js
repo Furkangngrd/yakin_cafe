@@ -137,7 +137,7 @@ const placeService = {
             coordinates: [longitude, latitude],
           },
           distanceField: "distance",
-          maxDistance: distanceLimit,
+          maxDistance: 5000,
           spherical: true,
           query: { isActive: true, status: "approved", ...(category && { category }) },
         },

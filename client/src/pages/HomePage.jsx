@@ -64,7 +64,7 @@ export default function HomePage() {
     setLoading(true);
     try {
       const { data } = await api.get(
-        `/places/nearby?lat=${coords.lat}&lng=${coords.lng}&maxDistance=15`
+        `/places/nearby?lat=${coords.lat}&lng=${coords.lng}&maxDistance=5`
       );
       const list = data.data?.places || [];
       // Normalize images
@@ -462,7 +462,7 @@ export default function HomePage() {
           <MapView
             center={isAuthenticated ? position : null}
             places={isAuthenticated ? filteredPlaces : []}
-            radius={15000}
+            radius={5000}
             isFlying={isFlying}
             onPlaceSelect={handlePlaceSelect}
             selectedPlace={selectedPlace}

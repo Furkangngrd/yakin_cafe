@@ -243,8 +243,8 @@ function MapController({ center, isFlying, onMapClick, onFlyEnd }) {
     const isSameCenter = prev && prev.lat === center.lat && prev.lng === center.lng;
 
     if (!isSameCenter || isFlying) {
-      // Zoom seviyesi 16 — yakın çevre net görünsün
-      map.flyTo([center.lat, center.lng], 16, {
+      // Zoom seviyesi 14 — çember ekranda şık dursun
+      map.flyTo([center.lat, center.lng], 14, {
         duration: 2.5,
         easeLinearity: 0.25,
       });
@@ -288,7 +288,7 @@ export default function MapView({
     <div className="w-full h-full relative group rounded-[inherit]">
       <MapContainer
         center={[defaultCenter.lat, defaultCenter.lng]}
-        zoom={16}
+        zoom={14}
         zoomControl={false}
         maxZoom={19}
         className={`w-full h-full ${isAddMode ? '[&_.leaflet-interactive]:!cursor-crosshair !cursor-crosshair' : ''}`}
