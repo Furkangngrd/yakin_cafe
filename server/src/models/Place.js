@@ -65,7 +65,7 @@ const placeSchema = new mongoose.Schema(
     address: {
       street: { type: String, trim: true, default: "" },
       district: { type: String, trim: true, default: "" },
-      city: { type: String, trim: true, default: "İstanbul" },
+      city: { type: String, trim: true, default: "Bitlis" },
     },
     phone: {
       type: String,
